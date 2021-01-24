@@ -22,3 +22,14 @@ flutter:
 
   assets:
   - images/
+
+  fonts:
+    - family: Lobster
+      fonts:
+        - asset: fonts/Lobster-Regular.ttf
+    - family: BalsamiqSans
+      fonts:
+        - asset: fonts/BalsamiqSans-Regular.ttf
+    - family: Kanit
+      fonts:
+        - asset: fonts/Kanit-Bold.ttf

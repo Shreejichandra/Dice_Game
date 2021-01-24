@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flutter/widgets.dart';
 
 void main() {
   return runApp(
@@ -8,7 +9,7 @@ void main() {
       home: Scaffold(
         backgroundColor: Colors.purple[500],
         appBar: AppBar(
-          title: Text('Dicee'),
+          title: Text('Dicee', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
           backgroundColor: Colors.black12,
         ),
         body: DicePage(),
@@ -25,11 +26,17 @@ class DicePage extends StatefulWidget {
 class _DicePageState extends State<DicePage> {
   int leftDiceNum = 4;
   int rightDiceNum = 6;
-
+  bool _visible = true;
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            height: 40.0,
+          ),
+          Row(
             children: [
               Expanded(
                 child: FlatButton(
@@ -37,7 +44,9 @@ class _DicePageState extends State<DicePage> {
                     setState(() {
                       leftDiceNum = Random().nextInt(5) + 1;
                       if (leftDiceNum == rightDiceNum) {
-                        print('Yay');
+                        _visible = false;
+                      } else {
+                        _visible = true;
                       }
                     });
                   },
@@ -50,16 +59,9 @@ class _DicePageState extends State<DicePage> {
                     setState(() {
                       rightDiceNum = Random().nextInt(5) + 1;
                       if (leftDiceNum == rightDiceNum) {
-                        print('Yay');
-                        return Card(
-                          child: ListTile(
-                              leading: Icon(Icons.assistant_photo_sharp),
-                              title: Text(
-                                'Yay! We got the same numbers.',
-                              )),
-                        );
+                        _visible = false;
                       } else {
-                        return Container();
+                        _visible = true;
                       }
                     });
                   },
@@ -68,18 +70,63 @@ class _DicePageState extends State<DicePage> {
               ),
             ],
           ),
-          // Row(
-          //   children: [
-          //     Card(
-          //       child: ListTile(
-          //           leading: Icon(Icons.assistant_photo_sharp),
-          //           title: Text(
-          //             'Yay! We got the same numbers.',
-          //           )),
-          //     )
-          //   ],
-          // )
-
+          SizedBox(
+            height: 40,
+          ),
+          Visibility(
+            visible: _visible,
+            child: Card(
+              color: Colors.white,
+              child: ListTile(
+                  leading: Icon(Icons.api_outlined),
+                  title: Text(
+                    'Left Dice Number:  $leftDiceNum',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontFamily: 'Lobster',
+                    ),
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Visibility(
+            visible: _visible,
+            child: Card(
+              color: Colors.white,
+              child: ListTile(
+                  leading: Icon(Icons.api_outlined),
+                  title: Text(
+                    'Right Dice Number:  $rightDiceNum',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontFamily: 'Lobster',
+                    ),
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Visibility(
+            visible: !_visible,
+            child: Card(
+              child: ListTile(
+                  tileColor: Colors.lightGreenAccent,
+                  title: Center(
+                    child: Text(
+                      'Yay! We got the same numbers.',
+                      style: TextStyle(
+                        fontSize: 26.0,
+                        fontFamily: 'Lobster',
+                      ),
+                    ),
+                  )),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
